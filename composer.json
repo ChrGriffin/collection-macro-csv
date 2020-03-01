@@ -1,0 +1,34 @@
+{
+    "name": "chrgriffin/collection-macro-csv",
+    "description": "Laravel Collection macro: convert a collection to a CSV-ready array or string.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Christian Griffin",
+            "email": "christian.griffin@live.com"
+        }
+    ],
+    "prefer-stable": true,
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.1.3"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^4.0",
+        "php-coveralls/php-coveralls": "^2.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "CollectionMacroCsv\\": "src",
+            "CollectionMacroCsv\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "CollectionMacroCsv\\ServiceProvider"
+            ]
+        }
+    }
+}
