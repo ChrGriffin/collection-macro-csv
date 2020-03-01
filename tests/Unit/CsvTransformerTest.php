@@ -20,6 +20,21 @@ class CsvTransformerTest extends TestCase
         ]
     ];
 
+    private $mismatchedArray = [
+        [
+            'id' => 1,
+            'name' => 'Geralt of Rivia',
+            'occupation' => 'Witcher',
+            'witcher_school' => 'Wolf'
+        ],
+        [
+            'id' => 2,
+            'name' => 'Yennefer of Vengerberg',
+            'occupation' => 'Sorceress',
+            'magic_speciality' => 'Portals'
+        ]
+    ];
+
     public function testItCanBeInstantiatedWithACollection(): void
     {
         $this->assertInstanceOf(CsvTransformer::class, new CsvTransformer(collect()));
@@ -45,6 +60,30 @@ class CsvTransformerTest extends TestCase
 
         $this->assertEquals(
             "id,name,occupation\n1,Geralt of Rivia,Witcher\n2,Yennefer of Vengerberg,Sorceress",
+            $transformer->toString()
+        );
+    }
+
+    public function testItTransformsAMismatchedAssociativeArrayIntoACsvArrayWithAllColumns(): void
+    {
+        $transformer = new CsvTransformer(collect($this->mismatchedArray));
+
+        $this->assertEquals(
+            [
+                ['id', 'name', 'occupation', 'witcher_school', 'magic_speciality'],
+                [1, 'Geralt of Rivia', 'Witcher', 'Wolf', null],
+                [2, 'Yennefer of Vengerberg', 'Sorceress', null, 'Portals']
+            ],
+            $transformer->toArray()
+        );
+    }
+
+    public function testItTransformsAMismatchedAssociativeArrayIntoACsvStringWithAllColumns(): void
+    {
+        $transformer = new CsvTransformer(collect($this->mismatchedArray));
+
+        $this->assertEquals(
+            "id,name,occupation,witcher_school,magic_speciality\n1,Geralt of Rivia,Witcher,Wolf,\n2,Yennefer of Vengerberg,Sorceress,,Portals",
             $transformer->toString()
         );
     }

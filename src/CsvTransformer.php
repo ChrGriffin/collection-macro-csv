@@ -16,11 +16,25 @@ class CsvTransformer
 
     public function toArray(): array
     {
+        $keys = $this->collection
+            ->flatMap(function (array $row) {
+                return array_keys($row);
+            })
+            ->unique()
+            ->values();
+
         return array_merge(
-            [array_keys($this->collection->first())],
-            $this->collection->map(function (array $item) {
-                return array_values($item);
-            })->toArray()
+            [$keys->toArray()],
+            $this->collection
+                ->map(function (array $row) use ($keys) {
+                    $array = [];
+                    foreach($keys as $key) {
+                        $array[$key] = $row[$key] ?? null;
+                    }
+                    return array_values($array);
+                })
+                ->values()
+                ->toArray()
         );
     }
 
