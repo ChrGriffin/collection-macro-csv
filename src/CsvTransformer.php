@@ -2,6 +2,7 @@
 
 namespace CollectionMacroCsv;
 
+use CollectionMacroCsv\Exceptions\MalformedCollectionException;
 use Illuminate\Support\Collection;
 
 class CsvTransformer
@@ -11,6 +12,12 @@ class CsvTransformer
 
     public function __construct(Collection $collection)
     {
+        $collection->each(function ($row) {
+            if(!is_array($row)) {
+                throw new MalformedCollectionException();
+            }
+        });
+
         $this->collection = $collection;
     }
 

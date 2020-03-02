@@ -3,6 +3,7 @@
 namespace CollectionMacroCsv\Tests\Unit;
 
 use CollectionMacroCsv\CsvTransformer;
+use CollectionMacroCsv\Exceptions\MalformedCollectionException;
 use CollectionMacroCsv\Tests\TestCase;
 
 class CsvTransformerTest extends TestCase
@@ -33,6 +34,15 @@ class CsvTransformerTest extends TestCase
             'occupation' => 'Sorceress',
             'magic_speciality' => 'Portals'
         ]
+    ];
+
+    private $malformedArray = [
+        [
+            'id' => 1,
+            'name' => 'Geralt of Rivia',
+            'occupation' => 'Witcher'
+        ],
+        'Yennefer of Vengerberg'
     ];
 
     public function testItCanBeInstantiatedWithACollection(): void
@@ -86,5 +96,11 @@ class CsvTransformerTest extends TestCase
             "id,name,occupation,witcher_school,magic_speciality\n1,Geralt of Rivia,Witcher,Wolf,\n2,Yennefer of Vengerberg,Sorceress,,Portals",
             $transformer->toString()
         );
+    }
+
+    public function testItThrowsAnExceptionIfTheCollectionIsMalformed(): void
+    {
+        $this->expectException(MalformedCollectionException::class);
+        new CsvTransformer(collect($this->malformedArray));
     }
 }
