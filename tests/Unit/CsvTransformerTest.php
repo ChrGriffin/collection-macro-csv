@@ -103,4 +103,15 @@ class CsvTransformerTest extends TestCase
         $this->expectException(MalformedCollectionException::class);
         new CsvTransformer(collect($this->malformedArray));
     }
+
+    public function testItUsesAGivenDelimiterInsteadOfAComma(): void
+    {
+        $transformer = (new CsvTransformer(collect($this->simpleArray)))
+            ->setDelimiter(';');
+
+        $this->assertEquals(
+            "id;name;occupation\n1;Geralt of Rivia;Witcher\n2;Yennefer of Vengerberg;Sorceress",
+            $transformer->toString()
+        );
+    }
 }

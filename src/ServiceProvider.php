@@ -16,8 +16,8 @@ class ServiceProvider extends LaravelServiceProvider
         }
 
         if(!Collection::hasMacro('toCsvString')) {
-            Collection::macro('toCsvString', function () {
-                return (new CsvTransformer($this))->toString();
+            Collection::macro('toCsvString', function ($delimiter = ',') {
+                return (new CsvTransformer($this))->setDelimiter($delimiter)->toString();
             });
         }
     }

@@ -10,6 +10,9 @@ class CsvTransformer
     /** @var Collection */
     private $collection;
 
+    /** @var string */
+    private $delimiter = ',';
+
     public function __construct(Collection $collection)
     {
         $collection->each(function ($row) {
@@ -19,6 +22,12 @@ class CsvTransformer
         });
 
         $this->collection = $collection;
+    }
+
+    public function setDelimiter(string $delimiter): CsvTransformer
+    {
+        $this->delimiter = $delimiter;
+        return $this;
     }
 
     public function toArray(): array
@@ -49,7 +58,7 @@ class CsvTransformer
     {
         return collect($this->toArray())
             ->map(function (array $row) {
-                return implode(',', $row);
+                return implode($this->delimiter, $row);
             })
             ->join("\n");
     }
