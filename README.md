@@ -35,7 +35,7 @@ You should now be able to chain `->toCsvArray()` and `->toCsvString` on any Coll
 
 ### toCsvArray
 
-`->toCsvArray` will transform a two dimensional Collection of associative arrays into a two dimensional array of 'rows' ready for CSV formatting.
+`->toCsvArray()` will transform a two dimensional Collection of associative arrays into a two dimensional array of 'rows' ready for CSV formatting.
 
 ```php
 $associativeArray = [
